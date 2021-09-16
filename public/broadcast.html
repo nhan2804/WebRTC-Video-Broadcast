@@ -1,22 +1,243 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <title>Broadcaster</title>
-    <meta charset="UTF-8" />
-  </head>
-  <body>
-    <section class="select">
-      <label for="audioSource">Audio source: </label>
-      <select id="audioSource"></select>
-    </section>
 
-    <section class="select">
-      <label for="videoSource">Video source: </label>
-      <select id="videoSource"></select>
-    </section>
+<head>
+  <title>Broadcaster</title>
+  <meta charset="UTF-8" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.15/tailwind.min.css"
+    integrity="sha512-braXHF1tCeb8MzPktmUHhrjZBSZknHvjmkUdkAbeqtIrWwCchhcpUeAf2Sq3yIq1Q1x5PlroafjceOUbIE3Q5g=="
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.2.0/socket.io.js"
+      integrity="sha512-WL6WGKMPBiM9PnHRYIn5YEtq0Z8XP4fkVb4qy7PP4vhmYQErJ/dySyXuFIMDf1eEYCXCrQrMJfkNwKc9gsjTjA=="
+      crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+</head>
 
-    <video playsinline autoplay muted></video>
-    <script src="/socket.io/socket.io.js"></script>
-    <script src="/broadcast.js"></script>
-  </body>
+<body>
+ 
+
+  
+ 
+   
+<div class="header-2">
+
+  <nav class="bg-white py-2 md:py-4">
+    <div class="container px-4 mx-auto md:flex md:items-center">
+
+      <div class="flex justify-between items-center">
+        <a href="#" class="font-bold text-xl text-indigo-600">NNN</a>
+        <button
+          class="border border-solid border-gray-600 px-3 py-1 rounded text-gray-600 opacity-50 hover:opacity-75 md:hidden"
+          id="navbar-toggle">
+          <i class="fas fa-bars"></i>
+        </button>
+      </div>
+
+      <div class="hidden md:flex flex-col md:flex-row md:ml-auto mt-3 md:mt-0" id="navbar-collapse">
+        <a href="#" class="p-2 lg:px-4 md:mx-2 text-white rounded bg-indigo-600">Trang chủ</a>
+        <a href="#"
+          class="p-2 lg:px-4 md:mx-2 text-gray-600 rounded hover:bg-gray-200 hover:text-gray-700 transition-colors duration-300">Về chúng tôi</a>
+        <a href="#"
+          class="p-2 lg:px-4 md:mx-2 text-gray-600 rounded hover:bg-gray-200 hover:text-gray-700 transition-colors duration-300">Tính năng</a>
+        <a href="#"
+          class="p-2 lg:px-4 md:mx-2 text-gray-600 rounded hover:bg-gray-200 hover:text-gray-700 transition-colors duration-300">Giá</a>
+        <a href="#"
+          class="p-2 lg:px-4 md:mx-2 text-gray-600 rounded hover:bg-gray-200 hover:text-gray-700 transition-colors duration-300">Liên hệ</a>
+        <a href="#"
+          class="p-2 lg:px-4 md:mx-2 text-indigo-600 text-center border border-transparent rounded hover:bg-indigo-100 hover:text-indigo-700 transition-colors duration-300">Login</a>
+        <a href="#"
+          class="p-2 lg:px-4 md:mx-2 text-indigo-600 text-center border border-solid border-indigo-600 rounded hover:bg-indigo-600 hover:text-white transition-colors duration-300 mt-1 md:mt-0 md:ml-1">Signup</a>
+      </div>
+    </div>
+  </nav>
+
+  <div class="bg-indigo-100 py-6 md:py-12">
+    <div class="container px-4 mx-auto">
+
+      <div class="text-center max-w-2xl mx-auto">
+        <h1 class="text-3xl md:text-4xl font-medium mb-2">Trở thành người xem</h1>
+        <a href="/" class="bg-indigo-600 text-white py-2 px-6 rounded-full text-xl mt-10">Bắt đầu ngay</a>
+        <div class="mt-4">
+          <video class="d-block max-w-full rounded shadow-md" playsinline autoplay muted></video>
+          <section class="select">
+            <label for="audioSource">Âm thanh: </label>
+            <select id="audioSource"></select>
+          </section>
+          
+          <section class="select">
+            <label for="videoSource">Video: </label>
+            <select id="videoSource"></select>
+          </section>
+        </div>
+      </div>
+
+      <div class="md:flex md:flex-wrap md:-mx-4 mt-6 md:mt-12">
+
+        <div class="md:w-1/3 md:px-4 xl:px-6 mt-8 md:mt-0 text-center">
+          <span class="w-20 border-t-2 border-solid border-indigo-200 inline-block mb-3"></span>
+          <h5 class="text-xl font-medium uppercase mb-4">WebRTC</h5>
+          <p class="text-gray-600">FWR blocks bring in an air of WebRTC with their creative layouts and blocks,
+            which are easily customizable</p>
+        </div>
+
+        <div class="md:w-1/3 md:px-4 xl:px-6 mt-8 md:mt-0 text-center">
+          <span class="w-20 border-t-2 border-solid border-indigo-200 inline-block mb-3"></span>
+          <h5 class="text-xl font-medium uppercase mb-4">Signaling</h5>
+          <p class="text-gray-600">FWR blocks are the cleanest pieces of HTML blocks, which are built with utmost care
+            to quality and usability.</p>
+        </div>
+
+        <div class="md:w-1/3 md:px-4 xl:px-6 mt-8 md:mt-0 text-center">
+          <span class="w-20 border-t-2 border-solid border-indigo-200 inline-block mb-3"></span>
+          <h5 class="text-xl font-medium uppercase mb-4">Web Application</h5>
+          <p class="text-gray-600">FWR blocks is a Web Application for designers, developers and agencies looking to create
+            stunning websites in no time.</p>
+        </div>
+
+      </div>
+
+    </div>
+  </div>
+
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <script>
+    const peerConnections = {};
+    const config = {
+      iceServers: [
+        {
+          "urls": "stun:stun.l.google.com:19302",
+        },
+        // { 
+        //   "urls": "turn:TURN_IP?transport=tcp",
+        //   "username": "TURN_USERNAME",
+        //   "credential": "TURN_CREDENTIALS"
+        // }
+      ]
+    };
+
+    const socket = io.connect(window.location.origin);
+
+    socket.on("answer", (id, description) => {
+      peerConnections[id].setRemoteDescription(description);
+    });
+
+    socket.on("watcher", id => {
+      const peerConnection = new RTCPeerConnection(config);
+      peerConnections[id] = peerConnection;
+
+      let stream = videoElement.srcObject;
+      stream.getTracks().forEach(track => peerConnection.addTrack(track, stream));
+
+      peerConnection.onicecandidate = event => {
+        if (event.candidate) {
+          socket.emit("candidate", id, event.candidate);
+        }
+      };
+
+      peerConnection
+        .createOffer()
+        .then(sdp => peerConnection.setLocalDescription(sdp))
+        .then(() => {
+          socket.emit("offer", id, peerConnection.localDescription);
+        });
+    });
+
+    socket.on("candidate", (id, candidate) => {
+      peerConnections[id].addIceCandidate(new RTCIceCandidate(candidate));
+    });
+
+    socket.on("disconnectPeer", id => {
+      peerConnections[id].close();
+      delete peerConnections[id];
+    });
+
+    window.onunload = window.onbeforeunload = () => {
+      socket.close();
+    };
+
+    // Get camera and microphone
+    const videoElement = document.querySelector("video");
+    const audioSelect = document.querySelector("select#audioSource");
+    const videoSelect = document.querySelector("select#videoSource");
+
+    audioSelect.onchange = getStream;
+    videoSelect.onchange = getStream;
+
+    getStream()
+      .then(getDevices)
+      .then(gotDevices);
+
+    function getDevices() {
+      return navigator.mediaDevices.enumerateDevices();
+    }
+
+    function gotDevices(deviceInfos) {
+      window.deviceInfos = deviceInfos;
+      for (const deviceInfo of deviceInfos) {
+        const option = document.createElement("option");
+        option.value = deviceInfo.deviceId;
+        if (deviceInfo.kind === "audioinput") {
+          option.text = deviceInfo.label || `Microphone ${audioSelect.length + 1}`;
+          audioSelect.appendChild(option);
+        } else if (deviceInfo.kind === "videoinput") {
+          option.text = deviceInfo.label || `Camera ${videoSelect.length + 1}`;
+          videoSelect.appendChild(option);
+        }
+      }
+    }
+
+    function getStream() {
+      if (window.stream) {
+        window.stream.getTracks().forEach(track => {
+          track.stop();
+        });
+      }
+      const audioSource = audioSelect.value;
+      const videoSource = videoSelect.value;
+      const constraints = {
+        audio: { deviceId: audioSource ? { exact: audioSource } : undefined },
+        video: { deviceId: videoSource ? { exact: videoSource } : undefined }
+      };
+      return navigator.mediaDevices
+        .getUserMedia(constraints)
+        .then(gotStream)
+        .catch(handleError);
+    }
+
+    function gotStream(stream) {
+      window.stream = stream;
+      audioSelect.selectedIndex = [...audioSelect.options].findIndex(
+        option => option.text === stream.getAudioTracks()[0].label
+      );
+      videoSelect.selectedIndex = [...videoSelect.options].findIndex(
+        option => option.text === stream.getVideoTracks()[0].label
+      );
+      videoElement.srcObject = stream;
+      socket.emit("broadcaster");
+    }
+
+    function handleError(error) {
+      console.error("Error: ", error);
+    }
+  </script>
+
+</body>
+
 </html>

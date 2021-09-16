@@ -1,47 +1,46 @@
 let peerConnection;
 const config = {
   iceServers: [
-      { 
-        "urls": "stun:stun.l.google.com:19302",
-      },
-      // { 
-      //   "urls": "turn:TURN_IP?transport=tcp",
-      //   "username": "TURN_USERNAME",
-      //   "credential": "TURN_CREDENTIALS"
-      // }
-  ]
+    {
+      urls: "stun:stun.l.google.com:19302",
+    },
+    // {
+    //   "urls": "turn:TURN_IP?transport=tcp",
+    //   "username": "TURN_USERNAME",
+    //   "credential": "TURN_CREDENTIALS"
+    // }
+  ],
 };
 
 const socket = io.connect(window.location.origin);
 const video = document.querySelector("video");
 const enableAudioButton = document.querySelector("#enable-audio");
 
-enableAudioButton.addEventListener("click", enableAudio)
+enableAudioButton.addEventListener("click", enableAudio);
 
 socket.on("offer", (id, description) => {
   peerConnection = new RTCPeerConnection(config);
   peerConnection
     .setRemoteDescription(description)
     .then(() => peerConnection.createAnswer())
-    .then(sdp => peerConnection.setLocalDescription(sdp))
+    .then((sdp) => peerConnection.setLocalDescription(sdp))
     .then(() => {
       socket.emit("answer", id, peerConnection.localDescription);
     });
-  peerConnection.ontrack = event => {
+  peerConnection.ontrack = (event) => {
     video.srcObject = event.streams[0];
   };
-  peerConnection.onicecandidate = event => {
+  peerConnection.onicecandidate = (event) => {
     if (event.candidate) {
       socket.emit("candidate", id, event.candidate);
     }
   };
 });
 
-
 socket.on("candidate", (id, candidate) => {
   peerConnection
     .addIceCandidate(new RTCIceCandidate(candidate))
-    .catch(e => console.error(e));
+    .catch((e) => console.error(e));
 });
 
 socket.on("connect", () => {
@@ -58,6 +57,18 @@ window.onunload = window.onbeforeunload = () => {
 };
 
 function enableAudio() {
-  console.log("Enabling audio")
+  console.log("Enabling audio");
   video.muted = false;
+  // let constraints = { audio: false, video: { width: 1280, height: 720 } };
+
+  // navigator.mediaDevices.getUserMedia(constraints)
+  // .then(function(mediaStream) {
+  //   var video = document.querySelector('video');
+  //   video.srcObject = mediaStream;
+  //   video.onloadedmetadata = function(e) {
+  //     video.play();
+  //   };
+  //   alert("ok")
+  // })
+  // .catch(function(err) { alert("rtttt") });
 }
